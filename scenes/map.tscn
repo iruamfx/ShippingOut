@@ -1,0 +1,41 @@
+[gd_scene load_steps=9 format=3 uid="uid://cwo5r2yjw0ku1"]
+
+[ext_resource type="PackedScene" uid="uid://btdqdawx43ost" path="res://scenes/water.tscn" id="1_1sjtq"]
+[ext_resource type="Material" uid="uid://c4mjej3m3tftl" path="res://shaders/water/Water.tres" id="2_7d7em"]
+[ext_resource type="Script" path="res://scenes/water.gd" id="2_tlk5f"]
+[ext_resource type="PackedScene" uid="uid://vvhkwdqwrtkm" path="res://scenes/ship.tscn" id="2_wkudf"]
+[ext_resource type="Script" path="res://scenes/ship.gd" id="3_d3j6x"]
+[ext_resource type="Script" path="res://addons/orbit_camera/orbit_camera.gd" id="4_i8jmj"]
+[ext_resource type="PackedScene" uid="uid://c0vp7huno01lg" path="res://shaders/sky/sky.tscn" id="5_1lfx0"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_f02h2"]
+material = ExtResource("2_7d7em")
+subdivide_width = 200
+subdivide_depth = 200
+orientation = 1
+
+[node name="Map" type="Node3D"]
+
+[node name="Water" parent="." instance=ExtResource("1_1sjtq")]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+mesh = SubResource("QuadMesh_f02h2")
+script = ExtResource("2_tlk5f")
+
+[node name="Sky" parent="." instance=ExtResource("5_1lfx0")]
+day_time = 12.0
+time_scale = 0.15
+
+[node name="Ship" parent="." instance=ExtResource("2_wkudf")]
+transform = Transform3D(0.998645, 0, 0, 0, 0.998645, 0, 0, 0, 0.998645, 0, 0.72679, 0)
+script = ExtResource("3_d3j6x")
+float_force = 5
+
+[node name="Node3D" type="Node3D" parent="Ship"]
+
+[node name="OrbitCamera" type="Camera3D" parent="Ship/Node3D"]
+transform = Transform3D(1.00136, 0, 0, 0, 1.00136, 0, 0, 0, 1.00136, 0, 0, 0)
+script = ExtResource("4_i8jmj")
+SCROLL_SPEED = 20.0
+DEFAULT_DISTANCE = 2.0
+ROTATE_SPEED = 0.75
+ANCHOR_NODE_PATH = NodePath("..")
